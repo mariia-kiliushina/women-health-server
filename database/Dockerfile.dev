@@ -1,5 +1,8 @@
 FROM postgres:14.4
 
+RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen
+RUN locale-gen en_US.UTF-8
+
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y curl jq lzop
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
