@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.dev
+    container_name: personal-app-api
+    depends_on:
+      - database
+    env_file:
+      - ./dev.env
+    ports:
+      - 3080:3080
+    restart: on-failure
+    volumes:
+      - ./:/var/app
+
+  database:
+    build:
+      context: ./
+      dockerfile: ./database/Dockerfile.dev
+    container_name: personal-app-database
+    env_file:
+      - ./dev.env
+    ports:
+      - 5432:5432
+    restart: on-failure
+    volumes:
+      - .:/var/app
