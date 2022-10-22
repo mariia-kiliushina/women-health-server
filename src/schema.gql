@@ -129,6 +129,15 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User!
 }
 
+type PeriodRecord {
+  date: String!
+  id: Int!
+  intensity: String!
+  mood: String!
+  symptoms: [Symptom!]!
+  user: User!
+}
+
 type Query {
   activityCategories(boardsIds: [Int!], ids: [Int!], ownersIds: [Int!]): [ActivityCategory!]!
   activityCategory(id: Int!): ActivityCategory!
@@ -146,6 +155,7 @@ type Query {
   budgetCategoryTypes: [BudgetCategoryType!]!
   budgetRecord(id: Int!): BudgetRecord!
   budgetRecords(amount: Float, boardsIds: [Int!], categoriesIds: [Int!], dates: [String!], ids: [Int!], isTrashed: Boolean, orderingByDate: String, orderingById: String, skip: Int, take: Int): [BudgetRecord!]!
+  periodRecord(id: Int!): PeriodRecord!
   symptom(id: Int!): Symptom!
   symptoms: [Symptom!]!
   user(id: Int, username: String): User!
@@ -160,6 +170,7 @@ input RemoveMemberInput {
 type Symptom {
   id: Int!
   name: String!
+  periodRecords: [PeriodRecord!]!
 }
 
 input UpdateActivityCategoryInput {

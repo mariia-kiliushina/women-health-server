@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm"
 
-// import { PeriodRecordEntity } from "#models/periods/entities/periods.entity"
+import { PeriodRecordEntity } from "#models/period-records/entities/period-record.entity"
+
 import { ISymptom } from "#interfaces/symptoms"
 
 @Entity("symptom")
@@ -11,7 +12,6 @@ export class SymptomEntity {
   @Column({ type: "varchar" })
   name: ISymptom["name"]
 
-  // @ManyToMany(() => PeriodRecordEntity, (periodRecord) => periodRecord.symptoms, { onDelete: "CASCADE" })
-  // @JoinTable()
-  // periodRecords: PeriodRecordEntity[]
+  @ManyToMany(() => PeriodRecordEntity, (periodRecord) => periodRecord.symptoms, { onDelete: "CASCADE" })
+  periodRecords: PeriodRecordEntity[]
 }

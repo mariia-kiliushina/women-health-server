@@ -13,6 +13,7 @@ import { BoardsModule } from "#models/boards/module"
 import { BudgetCategoriesModule } from "#models/budget-categories/module"
 import { BudgetCategoryTypesModule } from "#models/budget-category-types/module"
 import { BudgetRecordsModule } from "#models/budget-records/module"
+import { PeriodRecordsModule } from "#models/period-records/module"
 import { SymptomsModule } from "#models/symptoms/module"
 import { UsersModule } from "#models/users/module"
 
@@ -36,6 +37,7 @@ import { ormConfig } from "./config/ormConfig"
     BudgetCategoryTypesModule,
     BudgetRecordsModule,
     SymptomsModule,
+    PeriodRecordsModule,
     UsersModule,
   ],
 })
