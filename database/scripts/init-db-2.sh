@@ -17,6 +17,7 @@ psql personal_app_db postgres << EOF
   budget_record,
   board,
   board_subject,
+  symptom,
   "user",
   user_administrated_boards_board,
   user_boards_board
@@ -32,6 +33,7 @@ psql personal_app_db postgres << EOF
   ALTER SEQUENCE budget_record_id_seq RESTART WITH 1;
   ALTER SEQUENCE board_id_seq RESTART WITH 1;
   ALTER SEQUENCE board_subject_id_seq RESTART WITH 1;
+  ALTER SEQUENCE symptom_id_seq RESTART WITH 1;
   ALTER SEQUENCE user_id_seq RESTART WITH 1;
 EOF
 
@@ -73,8 +75,8 @@ psql personal_app_db postgres << EOF
 EOF
 psql personal_app_db postgres << EOF
   INSERT INTO budget_category_type (name     )
-  VALUES                              ('expense'),
-                                      ('income' );
+  VALUES                           ('expense'),
+                                   ('income' );
 EOF
 psql personal_app_db postgres << EOF
   INSERT INTO budget_category (name       , "typeId", "boardId")
@@ -116,6 +118,11 @@ psql personal_app_db postgres << EOF
                               (NULL          , 'Read chapter about DB', '2022-08-02', 6                  , 5           ),
                               (NULL          , 'running in hills'     , '2022-08-03', 4                  , 1           ),
                               (NULL          , ''                     , '2022-08-03', 10                 , 6           );
+EOF
+psql personal_app_db postgres << EOF
+  INSERT INTO symptom (name      )
+  VALUES              ('acne'    ),
+                      ('headache');
 EOF
 
 

@@ -146,6 +146,8 @@ type Query {
   budgetCategoryTypes: [BudgetCategoryType!]!
   budgetRecord(id: Int!): BudgetRecord!
   budgetRecords(amount: Float, boardsIds: [Int!], categoriesIds: [Int!], dates: [String!], ids: [Int!], isTrashed: Boolean, orderingByDate: String, orderingById: String, skip: Int, take: Int): [BudgetRecord!]!
+  symptom(id: Int!): Symptom!
+  symptoms: [Symptom!]!
   user(id: Int, username: String): User!
   users(ids: [Int!], username: String): [User!]!
 }
@@ -153,6 +155,11 @@ type Query {
 input RemoveMemberInput {
   boardId: Int!
   memberId: Int!
+}
+
+type Symptom {
+  id: Int!
+  name: String!
 }
 
 input UpdateActivityCategoryInput {
