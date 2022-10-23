@@ -4,13 +4,14 @@ import { Repository } from "typeorm"
 
 import { UserEntity } from "#models/users/entities/user.entity"
 
+import { SearchPeriodRecordsArgs } from "./dto/search-period-records.args"
 import { PeriodRecordEntity } from "./entities/period-record.entity"
 
 @Injectable()
 export class PeriodRecordsService {
   constructor(
     @InjectRepository(PeriodRecordEntity)
-    private PeriodRecordRepository: Repository<PeriodRecordEntity>
+    private periodRecordRepository: Repository<PeriodRecordEntity>
   ) {}
 
   async find({
@@ -20,14 +21,34 @@ export class PeriodRecordsService {
     authorizedUser: UserEntity
     recordId: PeriodRecordEntity["id"]
   }): Promise<PeriodRecordEntity> {
-    const record = await this.PeriodRecordRepository.findOne({
+    const record = await this.periodRecordRepository.findOne({
       relations: { symptoms: true, user: true },
-      where: { id: recordId, user: authorizedUser },
+      where: { id: recordId },
     })
     if (record === null) {
       throw new NotFoundException({ message: "Not found." })
     }
+    if (record.user.id !== authorizedUser.id) {
+      throw new NotFoundException({ message: "Access denied." })
+    }
     return record
+  }
+
+  async search({
+    args,
+    authorizedUser,
+  }: {
+    args: SearchPeriodRecordsArgs
+    authorizedUser: UserEntity
+  }): Promise<PeriodRecordEntity[]> {
+    return await this.periodRecordRepository.find({
+      order: { date: "ASC", id: "ASC" },
+      relations: { symptoms: true, user: true },
+      where: {
+        ...(args.date !== undefined && { date: args.date }),
+        user: { id: authorizedUser.id },
+      },
+    })
   }
 
   // async create({

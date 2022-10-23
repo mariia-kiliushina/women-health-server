@@ -129,20 +129,21 @@ psql personal_app_db postgres << EOF
 EOF
 
 psql personal_app_db postgres << EOF
-  INSERT INTO period_record ("userId", "date"      , "mood", "intensity")
-  VALUES                    (1       , '2022-10-02', 'good'       , 'no-flow'),
-                            (1       , '2022-10-05', 'good'       , 'no-flow'),
-                            (2       , '2022-10-09', 'frisky'     , 'medium'),
-                            (2       , '2022-10-11', 'sad'        , 'heavy');
+  INSERT INTO period_record ("userId", "date"      , "mood"  ,"intensity")
+  VALUES                    (1       , '2022-10-02', 'good'  ,'no-flow'  ),
+                            (1       , '2022-10-05', 'good'  ,'no-flow'  ),
+                            (2       , '2022-10-02', 'frisky','medium'   ),
+                            (2       , '2022-10-11', 'sad'   ,'heavy'    );
 EOF
 
 
 psql personal_app_db postgres << EOF
   INSERT INTO period_record_symptoms_symptom ("periodRecordId", "symptomId")
-  VALUES                                     (1       , 2        ),
-                                             (2       , 2        ),
-                                             (3       , 1        ),
-                                             (4       , 2        );
+  VALUES                                     (1               , 2          ),
+                                             (2               , 1          ),
+                                             (2               , 2          ),
+                                             (3               , 1          ),
+                                             (4               , 2          );
 EOF
 
 

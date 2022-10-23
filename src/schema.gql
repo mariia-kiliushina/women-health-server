@@ -156,6 +156,7 @@ type Query {
   budgetRecord(id: Int!): BudgetRecord!
   budgetRecords(amount: Float, boardsIds: [Int!], categoriesIds: [Int!], dates: [String!], ids: [Int!], isTrashed: Boolean, orderingByDate: String, orderingById: String, skip: Int, take: Int): [BudgetRecord!]!
   periodRecord(id: Int!): PeriodRecord!
+  periodRecords(date: String): [PeriodRecord!]!
   symptom(id: Int!): Symptom!
   symptoms: [Symptom!]!
   user(id: Int, username: String): User!

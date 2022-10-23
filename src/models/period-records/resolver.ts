@@ -6,6 +6,7 @@ import { UserEntity } from "#models/users/entities/user.entity"
 import { AuthorizationGuard } from "#helpers/authorization.guard"
 import { AuthorizedUser } from "#helpers/authorized-user.decorator"
 
+import { SearchPeriodRecordsArgs } from "./dto/search-period-records.args"
 import { PeriodRecordEntity } from "./entities/period-record.entity"
 import { PeriodRecord } from "./models/period-record.model"
 import { PeriodRecordsService } from "./service"
@@ -23,6 +24,16 @@ export class PeriodRecordsResolver {
     authorizedUser: UserEntity
   ): Promise<PeriodRecordEntity> {
     return this.periodRecordsService.find({ authorizedUser, recordId })
+  }
+
+  @Query((returns) => [PeriodRecord], { name: "periodRecords" })
+  search(
+    @Args()
+    args: SearchPeriodRecordsArgs,
+    @AuthorizedUser()
+    authorizedUser: UserEntity
+  ): Promise<PeriodRecordEntity[]> {
+    return this.periodRecordsService.search({ args, authorizedUser })
   }
 
   // @Mutation((returns) => ActivityRecord, { name: "createActivityRecord" })
