@@ -3,6 +3,7 @@ import { Args, Int, Query, Resolver } from "@nestjs/graphql"
 
 import { AuthorizationGuard } from "#helpers/authorization.guard"
 
+import { SymptomEntity } from "./entities/symptom.entity"
 import { Symptom } from "./models/symptom.model"
 import { SymptomsService } from "./service"
 
@@ -12,7 +13,7 @@ export class SymptomsResolver {
   constructor(private symptomsService: SymptomsService) {}
 
   @Query((returns) => [Symptom], { name: "symptoms" })
-  getAll(): Promise<Symptom[]> {
+  getAll(): Promise<SymptomEntity[]> {
     return this.symptomsService.getAll()
   }
 
@@ -20,7 +21,7 @@ export class SymptomsResolver {
   find(
     @Args("id", { type: () => Int })
     id: Symptom["id"]
-  ): Promise<Symptom> {
+  ): Promise<SymptomEntity> {
     return this.symptomsService.find({ symptomId: id })
   }
 }
