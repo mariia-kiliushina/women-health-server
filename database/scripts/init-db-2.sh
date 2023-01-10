@@ -17,6 +17,7 @@ psql personal_app_db postgres << EOF
   budget_record,
   board,
   board_subject,
+  period_intensity,
   period_record,
   period_record_symptoms_symptom,
   symptom,
@@ -129,11 +130,11 @@ psql personal_app_db postgres << EOF
 EOF
 
 psql personal_app_db postgres << EOF
-  INSERT INTO period_record ("userId", "date"      , "mood"  ,"intensity")
-  VALUES                    (1       , '2022-10-02', 'good'  ,'no-flow'  ),
-                            (1       , '2022-10-05', 'good'  ,'no-flow'  ),
-                            (2       , '2022-10-02', 'frisky','medium'   ),
-                            (2       , '2022-10-11', 'sad'   ,'heavy'    );
+  INSERT INTO period_record ("userId", "date"      , "mood"  , "intensity")
+  VALUES                    (1       , '2022-10-02', 'good'  , 'no-flow'  ),
+                            (1       , '2022-10-05', 'good'  , 'medium'   ),
+                            (2       , '2022-10-02', 'frisky', 'heavy'    ),
+                            (2       , '2022-10-11', 'sad'   , 'light'    );
 EOF
 
 
@@ -146,7 +147,11 @@ psql personal_app_db postgres << EOF
                                              (4               , 2          );
 EOF
 
-
+psql personal_app_db postgres << EOF
+  INSERT INTO period_intensity (slug     )
+  VALUES                       ('light'  ),
+                               ('medium' );
+EOF
 
 
 

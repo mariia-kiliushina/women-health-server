@@ -129,6 +129,10 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User!
 }
 
+type PeriodIntensity {
+  slug: String!
+}
+
 type PeriodRecord {
   date: String!
   id: Int!
@@ -155,6 +159,8 @@ type Query {
   budgetCategoryTypes: [BudgetCategoryType!]!
   budgetRecord(id: Int!): BudgetRecord!
   budgetRecords(amount: Float, boardsIds: [Int!], categoriesIds: [Int!], dates: [String!], ids: [Int!], isTrashed: Boolean, orderingByDate: String, orderingById: String, skip: Int, take: Int): [BudgetRecord!]!
+  periodIntensities: [PeriodIntensity!]!
+  periodIntensity(slug: String!): PeriodIntensity!
   periodRecord(id: Int!): PeriodRecord!
   periodRecords(date: String): [PeriodRecord!]!
   symptom(id: Int!): Symptom!
