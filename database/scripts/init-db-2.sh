@@ -132,10 +132,10 @@ EOF
 
 psql personal_app_db postgres << EOF
   INSERT INTO period_record ("userId", "date"      , "mood"  , "intensity")
-  VALUES                    (1       , '2022-10-02', 'good'  , 'no-flow'  ),
-                            (1       , '2022-10-05', 'good'  , 'medium'   ),
-                            (2       , '2022-10-02', 'frisky', 'heavy'    ),
-                            (2       , '2022-10-11', 'sad'   , 'light'    );
+  VALUES                    (1       , '2022-10-02', 'good'  , 'light'  ),
+                            (1       , '2022-10-05', 'good'  , 'medium' ),
+                            (2       , '2022-10-02', 'sad'   , 'medium' ),
+                            (2       , '2022-10-11', 'sad'   , 'light'  );
 EOF
 
 

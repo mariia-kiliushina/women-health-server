@@ -27,7 +27,7 @@ describe("Get period intensities", () => {
       }
     }`)
     expect(responseBody.data).toEqual({
-      periodIntensities: [periodIntensity.light.slug, periodIntensity.light.slug],
+      periodIntensities: [periodIntensity.light, periodIntensity.medium],
     })
   })
 })

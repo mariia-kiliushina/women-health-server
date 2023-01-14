@@ -3,6 +3,6 @@ export const periodIntensity = {
     slug: "light",
   },
   medium: {
-    slug: "mood",
+    slug: "medium",
   },
 } as const
