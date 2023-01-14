@@ -131,24 +131,6 @@ psql personal_app_db postgres << EOF
 EOF
 
 psql personal_app_db postgres << EOF
-  INSERT INTO period_record ("userId", "date"      , "mood"  , "intensity")
-  VALUES                    (1       , '2022-10-02', 'good'  , 'light'  ),
-                            (1       , '2022-10-05', 'good'  , 'medium' ),
-                            (2       , '2022-10-02', 'sad'   , 'medium' ),
-                            (2       , '2022-10-11', 'sad'   , 'light'  );
-EOF
-
-
-psql personal_app_db postgres << EOF
-  INSERT INTO period_record_symptoms_symptom ("periodRecordId", "symptomId")
-  VALUES                                     (1               , 2          ),
-                                             (2               , 1          ),
-                                             (2               , 2          ),
-                                             (3               , 1          ),
-                                             (4               , 2          );
-EOF
-
-psql personal_app_db postgres << EOF
   INSERT INTO period_intensity (slug    )
   VALUES                       ('light' ),
                                ('medium');
@@ -158,6 +140,23 @@ psql personal_app_db postgres << EOF
   INSERT INTO mood (slug  )
   VALUES           ('good'),
                    ('sad' );
+EOF
+
+psql personal_app_db postgres << EOF
+  INSERT INTO period_record ("userId", "date"      , "moodSlug", "intensitySlug")
+  VALUES                    (1       , '2022-10-02', 'good'    , 'light'        ),
+                            (1       , '2022-10-05', 'good'    , 'medium'       ),
+                            (2       , '2022-10-02', 'sad'     , 'medium'       ),
+                            (2       , '2022-10-11', 'sad'     , 'light'        );
+EOF
+
+psql personal_app_db postgres << EOF
+  INSERT INTO period_record_symptoms_symptom ("periodRecordId", "symptomId")
+  VALUES                                     (1               , 2          ),
+                                             (2               , 1          ),
+                                             (2               , 2          ),
+                                             (3               , 1          ),
+                                             (4               , 2          );
 EOF
 
 

@@ -64,8 +64,8 @@ export const pickFields = {
   periodRecord: `
     date
     id
-    intensity
-    mood
+    intensity { slug }
+    mood { slug }
     symptoms { id, name }
     user { id, password, username }
   `,

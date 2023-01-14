@@ -1,5 +1,7 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql"
 
+import { Mood } from "#models/mood/models/mood.model"
+import { PeriodIntensity } from "#models/period-intensity/models/period-intensity.model"
 import { Symptom } from "#models/symptoms/models/symptom.model"
 import { User } from "#models/users/models/user.model"
 
@@ -13,12 +15,11 @@ export class PeriodRecord {
   @Field((type) => Int)
   id: IPeriodRecord["id"]
 
-  // ToDo: try EnumOptions
-  @Field(() => String)
-  intensity: IPeriodRecord["intensity"]
+  @Field((type) => PeriodIntensity)
+  intensity: PeriodIntensity
 
-  @Field(() => String)
-  mood: IPeriodRecord["mood"]
+  @Field((type) => Mood)
+  mood: Mood
 
   @Field(() => [Symptom])
   symptoms: Symptom[]

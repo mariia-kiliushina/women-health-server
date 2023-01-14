@@ -22,7 +22,7 @@ export class PeriodRecordsService {
     recordId: PeriodRecordEntity["id"]
   }): Promise<PeriodRecordEntity> {
     const record = await this.periodRecordRepository.findOne({
-      relations: { symptoms: true, user: true },
+      relations: { symptoms: true, user: true, mood: true, intensity: true },
       where: { id: recordId },
     })
     if (record === null) {
@@ -43,7 +43,7 @@ export class PeriodRecordsService {
   }): Promise<PeriodRecordEntity[]> {
     return await this.periodRecordRepository.find({
       order: { date: "ASC", id: "ASC" },
-      relations: { symptoms: true, user: true },
+      relations: { symptoms: true, user: true, mood: true, intensity: true },
       where: {
         ...(args.date !== undefined && { date: args.date }),
         user: { id: authorizedUser.id },

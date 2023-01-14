@@ -1,13 +1,13 @@
+import { IMood } from "./mood"
+import { IPeriodIntensity } from "./period-intensity"
 import { ISymptom } from "./symptoms"
 import { IUser } from "./user"
-
-type Intensity = "no-flow" | "light" | "medium" | "heavy"
 
 export interface IPeriodRecord {
   date: string
   id: number
-  intensity: Intensity
-  mood: string
+  intensity: IPeriodIntensity
+  mood: IMood
   symptoms: ISymptom[]
   user: IUser
 }

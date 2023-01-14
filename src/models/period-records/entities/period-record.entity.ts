@@ -1,5 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 
+import { MoodEntity } from "#models/mood/entities/mood.entity"
+import { PeriodIntensityEntity } from "#models/period-intensity/entities/period-intensity.entity"
 import { SymptomEntity } from "#models/symptoms/entities/symptom.entity"
 import { UserEntity } from "#models/users/entities/user.entity"
 
@@ -13,11 +15,11 @@ export class PeriodRecordEntity {
   @PrimaryGeneratedColumn({ type: "int" })
   id: IPeriodRecord["id"]
 
-  @Column({ type: "varchar" })
-  intensity: IPeriodRecord["intensity"]
+  @ManyToOne(() => PeriodIntensityEntity, { onDelete: "CASCADE" })
+  intensity: PeriodIntensityEntity
 
-  @Column({ type: "varchar" })
-  mood: IPeriodRecord["mood"]
+  @ManyToOne(() => MoodEntity, { onDelete: "CASCADE" })
+  mood: MoodEntity
 
   @ManyToMany(() => SymptomEntity, (symptom) => symptom.periodRecords, { onDelete: "CASCADE" })
   @JoinTable()

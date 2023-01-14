@@ -140,8 +140,8 @@ type PeriodIntensity {
 type PeriodRecord {
   date: String!
   id: Int!
-  intensity: String!
-  mood: String!
+  intensity: PeriodIntensity!
+  mood: Mood!
   symptoms: [Symptom!]!
   user: User!
 }
