@@ -1,3 +1,4 @@
+import { moods } from "#e2e/constants/moods"
 import { users } from "#e2e/constants/users"
 import { authorize } from "#e2e/helpers/authorize"
 import { fetchGqlApi } from "#e2e/helpers/fetchGqlApi"
@@ -14,9 +15,7 @@ describe("Get mood", () => {
         ${pickFields.mood}
       }
     }`)
-    expect(responseBody.data).toEqual({
-      mood: { slug: "good" },
-    })
+    expect(responseBody.data).toEqual({ mood: moods.good })
   })
 
   it("Get all", async () => {
@@ -26,7 +25,7 @@ describe("Get mood", () => {
       }
     }`)
     expect(responseBody.data).toEqual({
-      moods: [{ slug: "good" }, { slug: "sad" }],
+      moods: [moods.good, moods.sad],
     })
   })
 })

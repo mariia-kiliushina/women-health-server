@@ -1,3 +1,4 @@
+import { periodIntensity } from "#e2e/constants/period-intensities"
 import { users } from "#e2e/constants/users"
 import { authorize } from "#e2e/helpers/authorize"
 import { fetchGqlApi } from "#e2e/helpers/fetchGqlApi"
@@ -26,7 +27,7 @@ describe("Get period intensities", () => {
       }
     }`)
     expect(responseBody.data).toEqual({
-      periodIntensities: [{ slug: "light" }, { slug: "medium" }],
+      periodIntensities: [periodIntensity.light.slug, periodIntensity.light.slug],
     })
   })
 })

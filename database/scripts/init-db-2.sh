@@ -52,7 +52,7 @@ psql personal_app_db postgres << EOF
 EOF
 psql personal_app_db postgres << EOF
   INSERT INTO board_subject (name        )
-  VALUES                    ('budget' ),
+  VALUES                    ('budget'    ),
                             ('activities');
 EOF
 psql personal_app_db postgres << EOF
@@ -149,15 +149,15 @@ psql personal_app_db postgres << EOF
 EOF
 
 psql personal_app_db postgres << EOF
-  INSERT INTO period_intensity (slug     )
-  VALUES                       ('light'  ),
-                               ('medium' );
+  INSERT INTO period_intensity (slug    )
+  VALUES                       ('light' ),
+                               ('medium');
 EOF
 
 psql personal_app_db postgres << EOF
-  INSERT INTO mood (slug    )
-  VALUES           ('good'  ),
-                   ('sad'   );
+  INSERT INTO mood (slug  )
+  VALUES           ('good'),
+                   ('sad' );
 EOF
 
 
