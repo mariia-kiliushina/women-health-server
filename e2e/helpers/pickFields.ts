@@ -58,6 +58,9 @@ export const pickFields = {
   periodIntensity: `
     slug
   `,
+  mood: `
+    slug
+  `,
   periodRecord: `
     date
     id

@@ -17,6 +17,7 @@ psql personal_app_db postgres << EOF
   budget_record,
   board,
   board_subject,
+  mood,
   period_intensity,
   period_record,
   period_record_symptoms_symptom,
@@ -151,6 +152,12 @@ psql personal_app_db postgres << EOF
   INSERT INTO period_intensity (slug     )
   VALUES                       ('light'  ),
                                ('medium' );
+EOF
+
+psql personal_app_db postgres << EOF
+  INSERT INTO mood (slug    )
+  VALUES           ('good'  ),
+                   ('sad'   );
 EOF
 
 
