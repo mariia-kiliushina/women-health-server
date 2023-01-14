@@ -105,6 +105,10 @@ input CreateUserInput {
   username: String!
 }
 
+type Mood {
+  slug: String!
+}
+
 type Mutation {
   addBoardMember(input: AddMemberInput!): Board!
   authorize(input: AuthorizeInput!): String!
@@ -129,6 +133,19 @@ type Mutation {
   updateUser(input: UpdateUserInput!): User!
 }
 
+type PeriodIntensity {
+  slug: String!
+}
+
+type PeriodRecord {
+  date: String!
+  id: Int!
+  intensity: String!
+  mood: String!
+  symptoms: [Symptom!]!
+  user: User!
+}
+
 type Query {
   activityCategories(boardsIds: [Int!], ids: [Int!], ownersIds: [Int!]): [ActivityCategory!]!
   activityCategory(id: Int!): ActivityCategory!
@@ -146,6 +163,14 @@ type Query {
   budgetCategoryTypes: [BudgetCategoryType!]!
   budgetRecord(id: Int!): BudgetRecord!
   budgetRecords(amount: Float, boardsIds: [Int!], categoriesIds: [Int!], dates: [String!], ids: [Int!], isTrashed: Boolean, orderingByDate: String, orderingById: String, skip: Int, take: Int): [BudgetRecord!]!
+  mood(slug: String!): Mood!
+  moods: [Mood!]!
+  periodIntensities: [PeriodIntensity!]!
+  periodIntensity(slug: String!): PeriodIntensity!
+  periodRecord(id: Int!): PeriodRecord!
+  periodRecords(date: String): [PeriodRecord!]!
+  symptom(id: Int!): Symptom!
+  symptoms: [Symptom!]!
   user(id: Int, username: String): User!
   users(ids: [Int!], username: String): [User!]!
 }
@@ -153,6 +178,12 @@ type Query {
 input RemoveMemberInput {
   boardId: Int!
   memberId: Int!
+}
+
+type Symptom {
+  id: Int!
+  name: String!
+  periodRecords: [PeriodRecord!]!
 }
 
 input UpdateActivityCategoryInput {
