@@ -1,4 +1,4 @@
-import { periodRecords } from "#e2e/constants/periods"
+import { periodRecords } from "#e2e/constants/period-records"
 import { users } from "#e2e/constants/users"
 import { authorize } from "#e2e/helpers/authorize"
 import { fetchGqlApi } from "#e2e/helpers/fetchGqlApi"
