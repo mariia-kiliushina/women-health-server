@@ -1,4 +1,4 @@
-export const periodIntensity = {
+export const periodIntensities = {
   light: {
     slug: "light",
   },

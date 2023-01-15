@@ -100,6 +100,13 @@ input CreateBudgetRecordInput {
   date: String!
 }
 
+input CreatePeriodRecordInput {
+  date: String!
+  intensitySlug: String!
+  moodSlug: String!
+  symptomsIds: [Int!]!
+}
+
 input CreateUserInput {
   password: String!
   username: String!
@@ -117,6 +124,7 @@ type Mutation {
   createBoard(input: CreateBoardInput!): Board!
   createBudgetCategory(input: CreateBudgetCategoryInput!): BudgetCategory!
   createBudgetRecord(input: CreateBudgetRecordInput!): BudgetRecord!
+  createPeriodRecord(input: CreatePeriodRecordInput!): PeriodRecord!
   createUser(input: CreateUserInput!): User!
   deleteActivityCategory(id: Int!): ActivityCategory!
   deleteActivityRecord(id: Int!): ActivityRecord!
