@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common"
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 
@@ -86,5 +86,20 @@ export class PeriodRecordsService {
     })
     const createdPeriodRecord = await this.periodRecordRepository.save(periodRecord)
     return await this.find({ authorizedUser, recordId: createdPeriodRecord.id })
+  }
+
+  async delete({
+    authorizedUser,
+    recordId,
+  }: {
+    authorizedUser: UserEntity
+    recordId: PeriodRecordEntity["id"]
+  }): Promise<PeriodRecordEntity> {
+    const periodRecord = await this.find({ authorizedUser, recordId })
+    if (periodRecord.user.id !== authorizedUser.id) {
+      throw new ForbiddenException({ message: "Access denied." })
+    }
+    await this.periodRecordRepository.delete(recordId)
+    return periodRecord
   }
 }

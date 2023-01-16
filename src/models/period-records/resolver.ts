@@ -57,13 +57,13 @@ export class PeriodRecordsResolver {
   //   return this.activityRecordsService.update({ authorizedUser, input })
   // }
 
-  // @Mutation((returns) => ActivityRecord, { name: "deleteActivityRecord" })
-  // delete(
-  //   @Args("id", { type: () => Int })
-  //   recordId: number,
-  //   @AuthorizedUser()
-  //   authorizedUser: UserEntity
-  // ): Promise<ActivityRecordEntity> {
-  //   return this.activityRecordsService.delete({ authorizedUser, recordId })
-  // }
+  @Mutation((returns) => PeriodRecord, { name: "deletePeriodRecord" })
+  delete(
+    @Args("id", { type: () => Int })
+    recordId: number,
+    @AuthorizedUser()
+    authorizedUser: UserEntity
+  ): Promise<PeriodRecordEntity> {
+    return this.periodRecordsService.delete({ authorizedUser, recordId })
+  }
 }
