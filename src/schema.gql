@@ -139,6 +139,7 @@ type Mutation {
   updateBoard(input: UpdateBoardInput!): Board!
   updateBudgetCategory(input: UpdateBudgetCategoryInput!): BudgetCategory!
   updateBudgetRecord(input: UpdateBudgetRecordInput!): BudgetRecord!
+  updatePeriodRecord(input: UpdatePeriodRecordInput!): PeriodRecord!
   updateUser(input: UpdateUserInput!): User!
 }
 
@@ -231,6 +232,14 @@ input UpdateBudgetRecordInput {
   date: String
   id: Int!
   isTrashed: Boolean
+}
+
+input UpdatePeriodRecordInput {
+  date: String
+  id: Int!
+  intensitySlug: String
+  moodSlug: String
+  symptomsIds: [Int!]
 }
 
 input UpdateUserInput {

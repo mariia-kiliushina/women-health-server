@@ -35,8 +35,22 @@ describe("Period record creating", () => {
     },
     {
       queryNameAndInput: `createPeriodRecord(input: {
+        date: "A_DATE_OF_INVALID_FORMAT",
+        intensitySlug: "${periodIntensities.medium.slug}",
+        moodSlug: "${moods.good.slug}",
+        symptomsIds: [${symptoms.acne.id}, ${symptoms.headache.id}],
+      })`,
+      createdPeriodRecord: undefined,
+      responseError: {
+        fields: {
+          date: "Should have format YYYY-MM-DD.",
+        },
+      },
+    },
+    {
+      queryNameAndInput: `createPeriodRecord(input: {
         date: "2023-01-19",
-        intensitySlug: "UNEXESTING_INTENSITY_SLUG",
+        intensitySlug: "NONEXISTENT_INTENSITY_SLUG",
         moodSlug: "${moods.good.slug}",
         symptomsIds: [${symptoms.acne.id}],
       })`,

@@ -9,6 +9,7 @@ import { UserEntity } from "#models/users/entities/user.entity"
 
 import { CreatePeriodRecordInput } from "./dto/create-period-record.input"
 import { SearchPeriodRecordsArgs } from "./dto/search-period-records.args"
+import { UpdatePeriodRecordInput } from "./dto/update-period-record.input"
 import { PeriodRecordEntity } from "./entities/period-record.entity"
 
 @Injectable()
@@ -73,9 +74,11 @@ export class PeriodRecordsService {
       throw new BadRequestException({ fields: { moodSlug: "Invalid value." } })
     })
 
-    // TODO: Добавить возможность искать по переданным ID-шкам: getAll заменить на search, добавить опциональные параметры поиска (ids).
-    // TODO: Добавить обработку ошибки, если были переданы несуществующие ID-шки симптомов.
-    const symptoms = (await this.symptomsService.getAll()).filter((symptom) => input.symptomsIds.includes(symptom.id))
+    const symptoms = await Promise.all(
+      input.symptomsIds.map((symptomId) => this.symptomsService.find({ symptomId }))
+    ).catch(() => {
+      throw new BadRequestException({ fields: { symptomsIds: "Invalid value." } })
+    })
 
     const periodRecord = this.periodRecordRepository.create({
       date: input.date,
@@ -86,6 +89,45 @@ export class PeriodRecordsService {
     })
     const createdPeriodRecord = await this.periodRecordRepository.save(periodRecord)
     return await this.find({ authorizedUser, recordId: createdPeriodRecord.id })
+  }
+  async update({
+    authorizedUser,
+    input,
+  }: {
+    authorizedUser: UserEntity
+    input: UpdatePeriodRecordInput
+  }): Promise<PeriodRecordEntity> {
+    const record = await this.find({ authorizedUser, recordId: input.id })
+    if (record.user.id !== authorizedUser.id) {
+      throw new ForbiddenException({ message: "Access denied." })
+    }
+
+    if (Object.keys(input).length === 0) return record
+
+    if (input.date !== undefined) {
+      record.date = input.date
+    }
+
+    if (input.moodSlug !== undefined) {
+      record.mood = await this.moodService.find({ moodSlug: input.moodSlug }).catch(() => {
+        throw new BadRequestException({ fields: { moodSlug: "Invalid value." } })
+      })
+    }
+    if (input.intensitySlug !== undefined) {
+      record.intensity = await this.periodIntensityService.find({ intensitySlug: input.intensitySlug }).catch(() => {
+        throw new BadRequestException({ fields: { intensitySlug: "Invalid value." } })
+      })
+    }
+
+    if (input.symptomsIds !== undefined) {
+      record.symptoms = await Promise.all(
+        input.symptomsIds.map((symptomId) => this.symptomsService.find({ symptomId }))
+      ).catch(() => {
+        throw new BadRequestException({ fields: { symptomsIds: "Invalid value." } })
+      })
+    }
+
+    return this.periodRecordRepository.save(record)
   }
 
   async delete({

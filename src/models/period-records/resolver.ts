@@ -5,9 +5,11 @@ import { UserEntity } from "#models/users/entities/user.entity"
 
 import { AuthorizationGuard } from "#helpers/authorization.guard"
 import { AuthorizedUser } from "#helpers/authorized-user.decorator"
+import { ValidationPipe } from "#helpers/validation.pipe"
 
 import { CreatePeriodRecordInput } from "./dto/create-period-record.input"
 import { SearchPeriodRecordsArgs } from "./dto/search-period-records.args"
+import { UpdatePeriodRecordInput } from "./dto/update-period-record.input"
 import { PeriodRecordEntity } from "./entities/period-record.entity"
 import { PeriodRecord } from "./models/period-record.model"
 import { PeriodRecordsService } from "./service"
@@ -39,7 +41,7 @@ export class PeriodRecordsResolver {
 
   @Mutation((returns) => PeriodRecord, { name: "createPeriodRecord" })
   create(
-    @Args("input")
+    @Args("input", ValidationPipe)
     input: CreatePeriodRecordInput,
     @AuthorizedUser()
     authorizedUser: UserEntity
@@ -47,15 +49,15 @@ export class PeriodRecordsResolver {
     return this.periodRecordsService.create({ authorizedUser, input })
   }
 
-  // @Mutation((returns) => ActivityRecord, { name: "updateActivityRecord" })
-  // update(
-  //   @Args("input", ValidationPipe)
-  //   input: UpdateActivityRecordInput,
-  //   @AuthorizedUser()
-  //   authorizedUser: UserEntity
-  // ): Promise<PeriodRecordEntity> {
-  //   return this.activityRecordsService.update({ authorizedUser, input })
-  // }
+  @Mutation((returns) => PeriodRecord, { name: "updatePeriodRecord" })
+  update(
+    @Args("input", ValidationPipe)
+    input: UpdatePeriodRecordInput,
+    @AuthorizedUser()
+    authorizedUser: UserEntity
+  ): Promise<PeriodRecordEntity> {
+    return this.periodRecordsService.update({ authorizedUser, input })
+  }
 
   @Mutation((returns) => PeriodRecord, { name: "deletePeriodRecord" })
   delete(
