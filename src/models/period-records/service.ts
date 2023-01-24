@@ -50,7 +50,7 @@ export class PeriodRecordsService {
     authorizedUser: UserEntity
   }): Promise<PeriodRecordEntity[]> {
     return await this.periodRecordRepository.find({
-      order: { date: "ASC", id: "ASC" },
+      order: { id: "DESC" },
       relations: { symptoms: true, user: true, mood: true, intensity: true },
       where: {
         ...(args.date !== undefined && { date: args.date }),
