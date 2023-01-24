@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Create dev database template from current personal_app_db state.
-psql -U postgres -c "DROP DATABASE IF EXISTS personal_app_dev_template WITH (FORCE);";
-psql -U postgres -c "CREATE DATABASE personal_app_dev_template WITH TEMPLATE personal_app_db ENCODING 'UTF-8';";
+# Create dev database template from current women_health_db state.
+psql -U postgres -c "DROP DATABASE IF EXISTS women_health_dev_template WITH (FORCE);";
+psql -U postgres -c "CREATE DATABASE women_health_dev_template WITH TEMPLATE women_health_db ENCODING 'UTF-8';";
 
 
 
 # Clear database tables.
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   TRUNCATE
   activity_category,
   activity_category_measurement_type,
@@ -28,7 +28,7 @@ psql personal_app_db postgres << EOF
   CASCADE;
 EOF
 # Reset tables primary key sequence.
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   ALTER SEQUENCE activity_category_id_seq RESTART WITH 1;
   ALTER SEQUENCE activity_category_measurement_type_id_seq RESTART WITH 1;
   ALTER SEQUENCE activity_record_id_seq RESTART WITH 1;
@@ -45,24 +45,24 @@ EOF
 
 
 # Seed database with testing data.
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO "user" (username,        password                                      )
   VALUES             ('john-doe',      '8bd309ffba83c3db9a53142b052468007b'          ),
                      ('jessica-stark', '8bd912e2fe84cd93c457142a1d7e77136c3bc954f183');
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO board_subject (name        )
   VALUES                    ('budget'    ),
                             ('activities');
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO board (name                 , "subjectId")
   VALUES            ('clever-budgetiers'  , 1          ),
                     ('mega-economists'    , 1          ),
                     ('beautiful-sportsmen', 2          ),
                     ('productive-people'  , 2          );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO user_boards_board ("userId", "boardId")
   VALUES                        (1       , 1        ),
                                 (2       , 1        ),
@@ -71,19 +71,19 @@ psql personal_app_db postgres << EOF
                                 (1       , 4        ),
                                 (2       , 4        );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO user_administrated_boards_board ("userId", "boardId")
   VALUES                                      (1       , 1        ),
                                               (2       , 2        ),
                                               (2       , 3        ),
                                               (1       , 4        );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO budget_category_type (name     )
   VALUES                           ('expense'),
                                    ('income' );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO budget_category    (name       , "typeId", "boardId")
   VALUES                         ('clothes'  , 1       , 1        ),
                                  ('education', 1       , 1        ),
@@ -91,7 +91,7 @@ psql personal_app_db postgres << EOF
                                  ('gifts'    , 2       , 2        ),
                                  ('salary'   , 2       , 2        );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO budget_record    (amount, date        , "isTrashed", "categoryId")
   VALUES                       (100   , '2022-08-01', TRUE       ,  1          ),
                                (400   , '2022-08-01', TRUE       ,  2          ),
@@ -100,12 +100,12 @@ psql personal_app_db postgres << EOF
                                (10    , '2022-08-02', FALSE      ,  3          ),
                                (230   , '2022-08-03', FALSE      ,  4          );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO activity_category_measurement_type (name          )
   VALUES                                         ('quantitative'),
                                                  ('boolean'     );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO activity_category (name       , "boardId", "measurementTypeId", "ownerId", "unit")
   VALUES                        ('running'  , 3        , 1                  , 2        , 'km'  ),
                                 ('pushups'  , 3        , 1                  , 2        , 'time'),
@@ -114,7 +114,7 @@ psql personal_app_db postgres << EOF
                                 ('reading'  , 4        , 1                  , 1        , 'page'),
                                 ('meditate' , 4        , 1                  , 2        , 'min' );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO activity_record ("booleanValue", "comment"              , "date"      , "quantitativeValue", "categoryId")
   VALUES                      (NULL          , ''                     , '2022-08-01', 3.5                , 1           ),
                               (NULL          , ''                     , '2022-08-01', 50                 , 2           ),
@@ -124,25 +124,25 @@ psql personal_app_db postgres << EOF
                               (NULL          , 'running in hills'     , '2022-08-03', 4                  , 1           ),
                               (NULL          , ''                     , '2022-08-03', 10                 , 6           );
 EOF
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO symptom (name      )
   VALUES              ('acne'    ),
                       ('headache');
 EOF
 
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO period_intensity (slug    )
   VALUES                       ('light' ),
                                ('medium');
 EOF
 
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO mood (slug  )
   VALUES           ('good'),
                    ('sad' );
 EOF
 
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO period_record ("userId", "date"      , "moodSlug", "intensitySlug")
   VALUES                    (1       , '2022-10-02', 'good'    , 'light'        ),
                             (1       , '2022-10-05', 'good'    , 'medium'       ),
@@ -150,7 +150,7 @@ psql personal_app_db postgres << EOF
                             (2       , '2022-10-11', 'sad'     , 'light'        );
 EOF
 
-psql personal_app_db postgres << EOF
+psql women_health_db postgres << EOF
   INSERT INTO period_record_symptoms_symptom ("periodRecordId", "symptomId")
   VALUES                                     (1               , 2          ),
                                              (2               , 1          ),
@@ -162,11 +162,11 @@ EOF
 
 
 # Create testing database template.
-psql -U postgres -c "DROP DATABASE IF EXISTS personal_app_testing_template WITH (FORCE);";
-psql -U postgres -c "CREATE DATABASE personal_app_testing_template WITH TEMPLATE personal_app_db ENCODING 'UTF-8';";
+psql -U postgres -c "DROP DATABASE IF EXISTS women_health_testing_template WITH (FORCE);";
+psql -U postgres -c "CREATE DATABASE women_health_testing_template WITH TEMPLATE women_health_db ENCODING 'UTF-8';";
 
 
 
 # Restore DB from testing template.
-psql -U postgres -c "DROP DATABASE IF EXISTS personal_app_db WITH (FORCE);";
-psql -U postgres -c "CREATE DATABASE personal_app_db WITH TEMPLATE personal_app_testing_template ENCODING 'UTF-8';";
+psql -U postgres -c "DROP DATABASE IF EXISTS women_health_db WITH (FORCE);";
+psql -U postgres -c "CREATE DATABASE women_health_db WITH TEMPLATE women_health_testing_template ENCODING 'UTF-8';";

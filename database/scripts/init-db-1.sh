@@ -10,10 +10,10 @@ curl $DUMP_URL --output /var/dump.lzo
 
 
 # Create an empty database.
-psql -U postgres -c "DROP DATABASE IF EXISTS personal_app_db WITH (FORCE);";
-psql -U postgres -c "CREATE DATABASE personal_app_db ENCODING 'UTF-8';";
+psql -U postgres -c "DROP DATABASE IF EXISTS women_health_db WITH (FORCE);";
+psql -U postgres -c "CREATE DATABASE women_health_db ENCODING 'UTF-8';";
 
 
 
 # Seed the database with the downloaded dump data.
-lzop -cd /var/dump.lzo | psql -U postgres personal_app_db;
+lzop -cd /var/dump.lzo | psql -U postgres women_health_db;

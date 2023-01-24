@@ -63,7 +63,7 @@ describe("Search for period records", () => {
     },
     {
       queryNameAndArgs: `periodRecords`,
-      foundRecords: [periodRecords[1], periodRecords[2]],
+      foundRecords: [periodRecords[2], periodRecords[1]],
       responseError: undefined,
     },
   ])("$queryNameAndArgs", async ({ queryNameAndArgs, foundRecords, responseError }) => {
