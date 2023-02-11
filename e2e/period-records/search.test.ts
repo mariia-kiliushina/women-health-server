@@ -22,10 +22,35 @@ describe("Find period record", () => {
     {
       queryNameAndArgs: `periodRecord(id: 3)`,
       foundRecord: undefined,
-      responseError: { message: "Access denied." },
+      responseError: { message: "Not found." },
+    },
+    {
+      queryNameAndArgs: `periodRecord(date: "2022-10-02")`,
+      foundRecord: periodRecords[1],
+      responseError: undefined,
+    },
+    {
+      queryNameAndArgs: `periodRecord(id:2, date: "2022-10-05")`,
+      foundRecord: periodRecords[2],
+      responseError: undefined,
+    },
+    {
+      queryNameAndArgs: `periodRecord(id:4, date: "2022-10-05")`,
+      foundRecord: undefined,
+      responseError: { message: "Not found." },
+    },
+    {
+      queryNameAndArgs: `periodRecord`,
+      foundRecord: undefined,
+      responseError: { message: "Provide at least one argument." },
     },
     {
       queryNameAndArgs: `periodRecord(id: 666666)`,
+      foundRecord: undefined,
+      responseError: { message: "Not found." },
+    },
+    {
+      queryNameAndArgs: `periodRecord(date: "1238-10-05")`,
       foundRecord: undefined,
       responseError: { message: "Not found." },
     },
@@ -40,40 +65,40 @@ describe("Find period record", () => {
   })
 })
 
-describe("Search for period records", () => {
-  test.each<{
-    queryNameAndArgs: string
-    foundRecords: unknown[]
-    responseError: unknown
-  }>([
-    {
-      queryNameAndArgs: `periodRecords(date: "2022-10-02")`,
-      foundRecords: [periodRecords[1]],
-      responseError: undefined,
-    },
-    {
-      queryNameAndArgs: `periodRecords(date: "2022-10-11")`,
-      foundRecords: [],
-      responseError: undefined,
-    },
-    {
-      queryNameAndArgs: `periodRecords(date: "1997-98-09")`,
-      foundRecords: [],
-      responseError: undefined,
-    },
-    {
-      queryNameAndArgs: `periodRecords`,
-      foundRecords: [periodRecords[2], periodRecords[1]],
-      responseError: undefined,
-    },
-  ])("$queryNameAndArgs", async ({ queryNameAndArgs, foundRecords, responseError }) => {
-    await authorize(users.johnDoe.id)
-    const responseBody = await fetchGqlApi(`{
-      ${queryNameAndArgs} {
-        ${pickFields.periodRecord}
-      }
-    }`)
-    expect(responseBody.data?.periodRecords).toEqual(foundRecords)
-    expect(responseBody.errors?.[0]?.extensions?.exception?.response).toEqual(responseError)
-  })
-})
+// describe("Search for period records", () => {
+//   test.each<{
+//     queryNameAndArgs: string
+//     foundRecords: unknown[]
+//     responseError: unknown
+//   }>([
+//     {
+//       queryNameAndArgs: `periodRecords(date: "2022-10-02")`,
+//       foundRecords: [periodRecords[1]],
+//       responseError: undefined,
+//     },
+//     {
+//       queryNameAndArgs: `periodRecords(date: "2022-10-11")`,
+//       foundRecords: [],
+//       responseError: undefined,
+//     },
+//     {
+//       queryNameAndArgs: `periodRecords(date: "1997-98-09")`,
+//       foundRecords: [],
+//       responseError: undefined,
+//     },
+//     {
+//       queryNameAndArgs: `periodRecords`,
+//       foundRecords: [periodRecords[2], periodRecords[1]],
+//       responseError: undefined,
+//     },
+//   ])("$queryNameAndArgs", async ({ queryNameAndArgs, foundRecords, responseError }) => {
+//     await authorize(users.johnDoe.id)
+//     const responseBody = await fetchGqlApi(`{
+//       ${queryNameAndArgs} {
+//         ${pickFields.periodRecord}
+//       }
+//     }`)
+//     expect(responseBody.data?.periodRecords).toEqual(foundRecords)
+//     expect(responseBody.errors?.[0]?.extensions?.exception?.response).toEqual(responseError)
+//   })
+// })

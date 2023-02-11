@@ -21,12 +21,14 @@ export class PeriodRecordsResolver {
 
   @Query((returns) => PeriodRecord, { name: "periodRecord" })
   find(
-    @Args("id", { type: () => Int })
+    @Args("id", { type: () => Int, nullable: true })
     recordId: PeriodRecordEntity["id"],
+    @Args("date", { type: () => String, nullable: true })
+    date: PeriodRecordEntity["date"],
     @AuthorizedUser()
     authorizedUser: UserEntity
   ): Promise<PeriodRecordEntity> {
-    return this.periodRecordsService.find({ authorizedUser, recordId })
+    return this.periodRecordsService.find({ authorizedUser, recordId, date })
   }
 
   @Query((returns) => [PeriodRecord], { name: "periodRecords" })

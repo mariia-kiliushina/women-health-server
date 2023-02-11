@@ -25,19 +25,25 @@ export class PeriodRecordsService {
   async find({
     authorizedUser,
     recordId,
+    date,
   }: {
     authorizedUser: UserEntity
-    recordId: PeriodRecordEntity["id"]
+    date?: PeriodRecordEntity["date"]
+    recordId?: PeriodRecordEntity["id"]
   }): Promise<PeriodRecordEntity> {
+    if (!date && !recordId) {
+      throw new BadRequestException({ message: "Provide at least one argument." })
+    }
     const record = await this.periodRecordRepository.findOne({
       relations: { symptoms: true, user: true, mood: true, intensity: true },
-      where: { id: recordId },
+      where: {
+        ...(recordId !== undefined && { id: recordId }),
+        ...(date !== undefined && { date }),
+        user: { id: authorizedUser.id },
+      },
     })
     if (record === null) {
       throw new NotFoundException({ message: "Not found." })
-    }
-    if (record.user.id !== authorizedUser.id) {
-      throw new NotFoundException({ message: "Access denied." })
     }
     return record
   }

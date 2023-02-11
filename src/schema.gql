@@ -177,7 +177,7 @@ type Query {
   moods: [Mood!]!
   periodIntensities: [PeriodIntensity!]!
   periodIntensity(slug: String!): PeriodIntensity!
-  periodRecord(id: Int!): PeriodRecord!
+  periodRecord(date: String, id: Int): PeriodRecord!
   periodRecords(date: String): [PeriodRecord!]!
   symptom(id: Int!): Symptom!
   symptoms: [Symptom!]!
