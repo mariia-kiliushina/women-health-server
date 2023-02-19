@@ -100,6 +100,10 @@ input CreateBudgetRecordInput {
   date: String!
 }
 
+input CreateMedicationCourseInput {
+  name: String!
+}
+
 input CreatePeriodRecordInput {
   date: String!
   intensitySlug: String!
@@ -110,6 +114,12 @@ input CreatePeriodRecordInput {
 input CreateUserInput {
   password: String!
   username: String!
+}
+
+type MedicationCourse {
+  id: Int!
+  name: String!
+  user: User!
 }
 
 type Mood {
@@ -124,6 +134,7 @@ type Mutation {
   createBoard(input: CreateBoardInput!): Board!
   createBudgetCategory(input: CreateBudgetCategoryInput!): BudgetCategory!
   createBudgetRecord(input: CreateBudgetRecordInput!): BudgetRecord!
+  createMedicationCourse(input: CreateMedicationCourseInput!): MedicationCourse!
   createPeriodRecord(input: CreatePeriodRecordInput!): PeriodRecord!
   createUser(input: CreateUserInput!): User!
   deleteActivityCategory(id: Int!): ActivityCategory!
@@ -131,6 +142,7 @@ type Mutation {
   deleteBoard(id: Int!): Board!
   deleteBudgetCategory(id: Int!): BudgetCategory!
   deleteBudgetRecord(id: Int!): BudgetRecord!
+  deleteMedicationCourse(id: Int!): MedicationCourse!
   deletePeriodRecord(id: Int!): PeriodRecord!
   deleteUser(id: Int!): User!
   removeBoardMember(input: RemoveMemberInput!): Board!
@@ -139,6 +151,7 @@ type Mutation {
   updateBoard(input: UpdateBoardInput!): Board!
   updateBudgetCategory(input: UpdateBudgetCategoryInput!): BudgetCategory!
   updateBudgetRecord(input: UpdateBudgetRecordInput!): BudgetRecord!
+  updateMedicationCourse(input: UpdateMedicationCourseInput!): MedicationCourse!
   updatePeriodRecord(input: UpdatePeriodRecordInput!): PeriodRecord!
   updateUser(input: UpdateUserInput!): User!
 }
@@ -173,6 +186,8 @@ type Query {
   budgetCategoryTypes: [BudgetCategoryType!]!
   budgetRecord(id: Int!): BudgetRecord!
   budgetRecords(amount: Float, boardsIds: [Int!], categoriesIds: [Int!], dates: [String!], ids: [Int!], isTrashed: Boolean, orderingByDate: String, orderingById: String, skip: Int, take: Int): [BudgetRecord!]!
+  medicationCourse(id: Int!): MedicationCourse!
+  medicationCourses: [MedicationCourse!]!
   mood(slug: String!): Mood!
   moods: [Mood!]!
   periodIntensities: [PeriodIntensity!]!
@@ -232,6 +247,11 @@ input UpdateBudgetRecordInput {
   date: String
   id: Int!
   isTrashed: Boolean
+}
+
+input UpdateMedicationCourseInput {
+  id: Int!
+  name: String
 }
 
 input UpdatePeriodRecordInput {

@@ -17,6 +17,7 @@ psql women_health_db postgres << EOF
   budget_record,
   board,
   board_subject,
+  medication_course,
   mood,
   period_intensity,
   period_record,
@@ -37,6 +38,7 @@ psql women_health_db postgres << EOF
   ALTER SEQUENCE budget_record_id_seq RESTART WITH 1;
   ALTER SEQUENCE board_id_seq RESTART WITH 1;
   ALTER SEQUENCE board_subject_id_seq RESTART WITH 1;
+  ALTER SEQUENCE medication_course_id_seq RESTART WITH 1;
   ALTER SEQUENCE period_record_id_seq RESTART WITH 1;
   ALTER SEQUENCE symptom_id_seq RESTART WITH 1;
   ALTER SEQUENCE user_id_seq RESTART WITH 1;
@@ -128,6 +130,13 @@ psql women_health_db postgres << EOF
   INSERT INTO symptom (name      )
   VALUES              ('acne'    ),
                       ('headache');
+EOF
+
+psql women_health_db postgres << EOF
+  INSERT INTO medication_course ("name"     , "userId")
+  VALUES                        ('duphaston', 1       ),
+                                ('selen'    , 1       ),
+                                ('zinc'     , 2       );
 EOF
 
 psql women_health_db postgres << EOF

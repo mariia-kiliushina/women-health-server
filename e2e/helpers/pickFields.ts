@@ -55,6 +55,11 @@ export const pickFields = {
     id
     name
   `,
+  medicationCourse: `
+    id
+    name
+    user { id, password, username }
+  `,
   periodIntensity: `
     slug
   `,

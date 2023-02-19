@@ -13,6 +13,7 @@ import { BoardsModule } from "#models/boards/module"
 import { BudgetCategoriesModule } from "#models/budget-categories/module"
 import { BudgetCategoryTypesModule } from "#models/budget-category-types/module"
 import { BudgetRecordsModule } from "#models/budget-records/module"
+import { MedicationCoursesModule } from "#models/medication-courses/module"
 import { MoodModule } from "#models/mood/module"
 import { PeriodIntensityModule } from "#models/period-intensity/module"
 import { PeriodRecordsModule } from "#models/period-records/module"
@@ -38,6 +39,7 @@ import { ormConfig } from "./config/ormConfig"
     BudgetCategoriesModule,
     BudgetCategoryTypesModule,
     BudgetRecordsModule,
+    MedicationCoursesModule,
     MoodModule,
     PeriodIntensityModule,
     PeriodRecordsModule,
