@@ -18,6 +18,7 @@ psql women_health_db postgres << EOF
   board,
   board_subject,
   medication_course,
+  medication_course_taking,
   mood,
   period_intensity,
   period_record,
@@ -39,6 +40,7 @@ psql women_health_db postgres << EOF
   ALTER SEQUENCE board_id_seq RESTART WITH 1;
   ALTER SEQUENCE board_subject_id_seq RESTART WITH 1;
   ALTER SEQUENCE medication_course_id_seq RESTART WITH 1;
+  ALTER SEQUENCE medication_course_taking_id_seq RESTART WITH 1;
   ALTER SEQUENCE period_record_id_seq RESTART WITH 1;
   ALTER SEQUENCE symptom_id_seq RESTART WITH 1;
   ALTER SEQUENCE user_id_seq RESTART WITH 1;
@@ -138,6 +140,16 @@ psql women_health_db postgres << EOF
                                 ('selen'    , 1       ),
                                 ('zinc'     , 2       );
 EOF
+
+
+psql women_health_db postgres << EOF
+  INSERT INTO medication_course_taking ("date"      ,  "time" , "isTaken", "medicationCourseId")
+  VALUES                               ('2022-02-25',  '10:00', TRUE     , 1                   ),
+                                       ('2022-02-25',  '22:00', FALSE    , 1                   ),
+                                       ('2022-02-26',  '08:00', FALSE    , 3                   ),
+                                       ('2022-02-27',  '08:00', FALSE    , 3                   );
+EOF
+
 
 psql women_health_db postgres << EOF
   INSERT INTO period_intensity (slug    )
