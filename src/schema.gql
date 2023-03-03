@@ -101,7 +101,10 @@ input CreateBudgetRecordInput {
 }
 
 input CreateMedicationCourseInput {
+  endDate: String!
   name: String!
+  startDate: String!
+  times: [String!]!
 }
 
 input CreateMedicationCourseTakingInput {
@@ -269,8 +272,11 @@ input UpdateBudgetRecordInput {
 }
 
 input UpdateMedicationCourseInput {
+  endDate: String
   id: Int!
   name: String
+  startDate: String
+  times: [String!]
 }
 
 input UpdateMedicationCourseTakingInput {
