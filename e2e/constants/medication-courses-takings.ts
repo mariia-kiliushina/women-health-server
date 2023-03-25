@@ -1,6 +1,6 @@
 import { medicationCourses } from "./medication-courses"
 
-export const medicationCoursesTaking = {
+export const medicationCoursesTakings = {
   1: {
     id: 1,
     date: "2022-02-25",

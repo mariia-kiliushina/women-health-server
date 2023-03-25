@@ -1,4 +1,4 @@
-import { medicationCoursesTaking } from "#e2e/constants/medication-courses-taking"
+import { medicationCoursesTakings } from "#e2e/constants/medication-courses-takings"
 import { users } from "#e2e/constants/users"
 import { ITestUserId, authorize } from "#e2e/helpers/authorize"
 import { fetchGqlApi } from "#e2e/helpers/fetchGqlApi"
@@ -13,30 +13,30 @@ describe("Medication course taking updating", () => {
   }>([
     {
       authorizedUserId: users.jessicaStark.id,
-      queryNameAndInput: `updateMedicationCoursesTaking(input: { id: ${medicationCoursesTaking[1].id}})`,
+      queryNameAndInput: `updateMedicationCoursesTaking(input: { id: ${medicationCoursesTakings[1].id}})`,
       updatedMedicationCoursesTaking: undefined,
       responseError: { message: "Access denied." },
     },
     {
       authorizedUserId: users.johnDoe.id,
       queryNameAndInput: `updateMedicationCoursesTaking(input: {
-        id: ${medicationCoursesTaking[1].id},
+        id: ${medicationCoursesTakings[1].id},
         isTaken: true,
         time: "14:00"
       })`,
       updatedMedicationCoursesTaking: {
-        id: medicationCoursesTaking[1].id,
-        date: medicationCoursesTaking[1].date,
+        id: medicationCoursesTakings[1].id,
+        date: medicationCoursesTakings[1].date,
         time: "14:00",
         isTaken: true,
-        medicationCourse: medicationCoursesTaking[1].medicationCourse,
+        medicationCourse: medicationCoursesTakings[1].medicationCourse,
       },
       responseError: undefined,
     },
     {
       authorizedUserId: users.johnDoe.id,
-      queryNameAndInput: `updateMedicationCoursesTaking(input: { id: ${medicationCoursesTaking[1].id} })`,
-      updatedMedicationCoursesTaking: medicationCoursesTaking[1],
+      queryNameAndInput: `updateMedicationCoursesTaking(input: { id: ${medicationCoursesTakings[1].id} })`,
+      updatedMedicationCoursesTaking: medicationCoursesTakings[1],
       responseError: undefined,
     },
   ])(
@@ -57,7 +57,7 @@ describe("Medication course taking updating", () => {
     await authorize(users.johnDoe.id)
     await fetchGqlApi(`mutation QUERY_NAME {
       updateMedicationCoursesTaking(input: {
-        id: ${medicationCoursesTaking[1].id},
+        id: ${medicationCoursesTakings[1].id},
         isTaken: true,
         time: "14:00"
       }) {
@@ -65,17 +65,17 @@ describe("Medication course taking updating", () => {
       }
     }`)
     const responseBody = await fetchGqlApi(`{
-      medicationCoursesTaking(id: ${medicationCoursesTaking[1].id}) {
+      medicationCoursesTaking(id: ${medicationCoursesTakings[1].id}) {
         ${pickFields.medicationCourseTaking}
       }
     }`)
     expect(responseBody.data).toEqual({
       medicationCoursesTaking: {
-        id: medicationCoursesTaking[1].id,
-        date: medicationCoursesTaking[1].date,
+        id: medicationCoursesTakings[1].id,
+        date: medicationCoursesTakings[1].date,
         time: "14:00",
         isTaken: true,
-        medicationCourse: medicationCoursesTaking[1].medicationCourse,
+        medicationCourse: medicationCoursesTakings[1].medicationCourse,
       },
     })
   })

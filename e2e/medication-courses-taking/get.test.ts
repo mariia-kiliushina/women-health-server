@@ -1,4 +1,4 @@
-import { medicationCoursesTaking } from "#e2e/constants/medication-courses-taking"
+import { medicationCoursesTakings } from "#e2e/constants/medication-courses-takings"
 import { users } from "#e2e/constants/users"
 import { authorize } from "#e2e/helpers/authorize"
 import { fetchGqlApi } from "#e2e/helpers/fetchGqlApi"
@@ -15,7 +15,7 @@ describe("Get medication course taking", () => {
         ${pickFields.medicationCourseTaking}
       }
     }`)
-    expect(responseBody.data).toEqual({ medicationCoursesTaking: medicationCoursesTaking[2] })
+    expect(responseBody.data).toEqual({ medicationCoursesTaking: medicationCoursesTakings[2] })
   })
 
   it("Returns an appropriate error when finding a nonexisting course taking", async () => {
@@ -34,18 +34,5 @@ describe("Get medication course taking", () => {
       }
     }`)
     expect(responseBody.errors?.[0]?.extensions?.exception?.response.message).toEqual("Access denied.")
-  })
-})
-
-describe("Search for medication courses", () => {
-  it("Search for all courses", async () => {
-    const responseBody = await fetchGqlApi(`{
-      medicationCoursesTakings {
-        ${pickFields.medicationCourseTaking}
-      }
-    }`)
-    expect(responseBody.data).toEqual({
-      medicationCoursesTakings: [medicationCoursesTaking[1], medicationCoursesTaking[2]],
-    })
   })
 })

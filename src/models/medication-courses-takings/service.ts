@@ -1,11 +1,12 @@
 import { Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
-import { Repository } from "typeorm"
+import { In, Repository } from "typeorm"
 
 import { MedicationCoursesService } from "#models/medication-courses/service"
 import { UserEntity } from "#models/users/entities/user.entity"
 
 import { CreateMedicationCourseTakingInput } from "./dto/create-medication-course-taking.input"
+import { SearchMedicationCourseTakingArgs } from "./dto/search-medication-course-taking.input.args"
 import { UpdateMedicationCourseTakingInput } from "./dto/update-medication-course-taking.input"
 import { MedicationCourseTakingEntity } from "./entities/medication-course-taking.entity"
 
@@ -18,13 +19,21 @@ export class MedicationCoursesTakingsService {
     private medicationCoursesService: MedicationCoursesService
   ) {}
 
-  getAll({ authorizedUser }: { authorizedUser: UserEntity }): Promise<MedicationCourseTakingEntity[]> {
-    return this.medicationCoursesTakingsRepository.find({
+  async search({
+    args,
+    authorizedUser,
+  }: {
+    args: SearchMedicationCourseTakingArgs
+    authorizedUser: UserEntity
+  }): Promise<MedicationCourseTakingEntity[]> {
+    return await this.medicationCoursesTakingsRepository.find({
+      order: { id: "ASC" },
       relations: {
         medicationCourse: { user: true },
       },
       where: {
-        medicationCourse: { user: authorizedUser },
+        ...(args.dates !== undefined && { date: In(args.dates) }),
+        medicationCourse: { user: { id: authorizedUser.id } },
       },
     })
   }

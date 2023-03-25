@@ -7,12 +7,12 @@ export class CreatePeriodRecordInput {
   @Matches(/^\d\d\d\d-\d\d-\d\d$/, { message: "Should have format YYYY-MM-DD." })
   date: string
 
-  @Field()
-  intensitySlug: string
+  @Field({ nullable: true })
+  intensitySlug?: string
 
-  @Field()
-  moodSlug: string
+  @Field({ nullable: true })
+  moodSlug?: string
 
-  @Field((type) => [Int])
-  symptomsIds: number[]
+  @Field((type) => [Int], { nullable: true })
+  symptomsIds?: number[]
 }

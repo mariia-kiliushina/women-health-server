@@ -8,6 +8,7 @@ import { AuthorizedUser } from "#helpers/authorized-user.decorator"
 import { ValidationPipe } from "#helpers/validation.pipe"
 
 import { CreateMedicationCourseTakingInput } from "./dto/create-medication-course-taking.input"
+import { SearchMedicationCourseTakingArgs } from "./dto/search-medication-course-taking.input.args"
 import { UpdateMedicationCourseTakingInput } from "./dto/update-medication-course-taking.input"
 import { MedicationCourseTakingEntity } from "./entities/medication-course-taking.entity"
 import { MedicationCourseTaking } from "./models/medication-course-taking.model"
@@ -19,11 +20,13 @@ export class MedicationCoursesTakingsResolver {
   constructor(private medicationCoursesTakingsService: MedicationCoursesTakingsService) {}
 
   @Query((returns) => [MedicationCourseTaking], { name: "medicationCoursesTakings" })
-  getAll(
+  search(
+    @Args()
+    args: SearchMedicationCourseTakingArgs,
     @AuthorizedUser()
     authorizedUser: UserEntity
   ): Promise<MedicationCourseTakingEntity[]> {
-    return this.medicationCoursesTakingsService.getAll({ authorizedUser })
+    return this.medicationCoursesTakingsService.search({ args, authorizedUser })
   }
 
   @Query((returns) => MedicationCourseTaking, { name: "medicationCoursesTaking" })

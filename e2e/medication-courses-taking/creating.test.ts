@@ -24,7 +24,7 @@ describe("Medication course taking creation", () => {
       responseError: { fields: { time: "Should have format HH:mm." } },
     },
     {
-      queryNameAndInput: `createMedicationCoursesTaking(input: { 
+      queryNameAndInput: `createMedicationCoursesTaking(input: {
         date: "2022-02-27",
         medicationCourseId: 2,
         time: "08:00",
@@ -48,32 +48,36 @@ describe("Medication course taking creation", () => {
     expect(responseBody.errors?.[0]?.extensions?.exception?.response).toEqual(responseError)
   })
 })
-//   describe("Medication course taking created and found after creation", () => {
-//     it.only("created medicationCourse is found successfully", async () => {
-//       await fetchGqlApi(`mutation QUERY_NAME {
-//         createMedicationCoursesTaking(input:{
-//           date: "2022-02-27",
-//           time: "8:00 AM",
-//           medicationCourseId: 2,
-//         }) {
-//           ${pickFields.medicationCourseTaking}
-//         }
-//       }`)
-//       const fetchCreatedMedicationCourseResponseBody = await fetchGqlApi(`{
-//         medicationCourseTaking(id: 5) {
-//           ${pickFields.medicationCourseTaking}
-//         }
-//       }`)
 
-//       expect(fetchCreatedMedicationCourseResponseBody.data).toEqual({
-//         medicationCourseTaking: {
-//           id: 5,
-//           date: "2022-02-27",
-//           isTaken: false,
-//           medicationCourseId: 2,
-//           time: "8:00 AM",
-//         },
-//       })
-//     })
-//   })
-// })
+describe("Medication course taking created and found after creation", () => {
+  it("created medicationCourse has been found successfully", async () => {
+    await fetchGqlApi(`mutation QUERY_NAME {
+        createMedicationCoursesTaking(input:{
+          date: "2022-02-27",
+          time: "08:00",
+          medicationCourseId: 2,
+        }) {
+          ${pickFields.medicationCourseTaking}
+        }
+      }`)
+
+    const fetchCreatedMedicationCourseResponseBody = await fetchGqlApi(`{
+         medicationCoursesTaking(id: 5) {
+          ${pickFields.medicationCourseTaking}
+        }
+      }`)
+
+    console.log(fetchCreatedMedicationCourseResponseBody.data)
+    console.log(fetchCreatedMedicationCourseResponseBody.errors?.[0])
+
+    expect(fetchCreatedMedicationCourseResponseBody.data).toEqual({
+      medicationCoursesTaking: {
+        id: 5,
+        date: "2022-02-27",
+        isTaken: false,
+        medicationCourse: medicationCourses.selen,
+        time: "08:00",
+      },
+    })
+  })
+})
