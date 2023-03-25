@@ -4,6 +4,7 @@ import { Repository } from "typeorm"
 
 import { MoodService } from "#models/mood/service"
 import { PeriodIntensityService } from "#models/period-intensity/service"
+import { SymptomEntity } from "#models/symptoms/entities/symptom.entity"
 import { SymptomsService } from "#models/symptoms/service"
 import { UserEntity } from "#models/users/entities/user.entity"
 
@@ -72,19 +73,28 @@ export class PeriodRecordsService {
     authorizedUser: UserEntity
     input: CreatePeriodRecordInput
   }): Promise<PeriodRecordEntity> {
-    const intensity = await this.periodIntensityService.find({ intensitySlug: input.intensitySlug }).catch(() => {
-      throw new BadRequestException({ fields: { intensitySlug: "Invalid value." } })
-    })
+    let intensity = null
+    if (input.intensitySlug !== undefined) {
+      intensity = await this.periodIntensityService.find({ intensitySlug: input.intensitySlug }).catch(() => {
+        throw new BadRequestException({ fields: { intensitySlug: "Invalid value." } })
+      })
+    }
 
-    const mood = await this.moodService.find({ moodSlug: input.moodSlug }).catch(() => {
-      throw new BadRequestException({ fields: { moodSlug: "Invalid value." } })
-    })
+    let mood = null
+    if (input.moodSlug !== undefined) {
+      mood = await this.moodService.find({ moodSlug: input.moodSlug }).catch(() => {
+        throw new BadRequestException({ fields: { moodSlug: "Invalid value." } })
+      })
+    }
 
-    const symptoms = await Promise.all(
-      input.symptomsIds.map((symptomId) => this.symptomsService.find({ symptomId }))
-    ).catch(() => {
-      throw new BadRequestException({ fields: { symptomsIds: "Invalid value." } })
-    })
+    let symptoms: SymptomEntity[] = []
+    if (input.symptomsIds !== undefined) {
+      symptoms = await Promise.all(
+        input.symptomsIds.map((symptomId) => this.symptomsService.find({ symptomId }))
+      ).catch(() => {
+        throw new BadRequestException({ fields: { symptomsIds: "Invalid value." } })
+      })
+    }
 
     const periodRecord = this.periodRecordRepository.create({
       date: input.date,
@@ -93,6 +103,7 @@ export class PeriodRecordsService {
       symptoms,
       user: authorizedUser,
     })
+
     const createdPeriodRecord = await this.periodRecordRepository.save(periodRecord)
     return await this.find({ authorizedUser, recordId: createdPeriodRecord.id })
   }
@@ -109,10 +120,6 @@ export class PeriodRecordsService {
     }
 
     if (Object.keys(input).length === 0) return record
-
-    if (input.date !== undefined) {
-      record.date = input.date
-    }
 
     if (input.moodSlug !== undefined) {
       record.mood = await this.moodService.find({ moodSlug: input.moodSlug }).catch(() => {

@@ -1,8 +1,11 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
+import { Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 
+import { MedicationCoursesTakingsService } from "#models/medication-courses-takings/service"
 import { UserEntity } from "#models/users/entities/user.entity"
+
+import { getPeriodOfDates } from "#helpers/getPeriodOfDates"
 
 import { CreateMedicationCourseInput } from "./dto/create-medication-course.input"
 import { UpdateMedicationCourseInput } from "./dto/update-medication-course.input"
@@ -12,7 +15,9 @@ import { MedicationCourseEntity } from "./entities/medication-course.entity"
 export class MedicationCoursesService {
   constructor(
     @InjectRepository(MedicationCourseEntity)
-    private medicationCoursesRepository: Repository<MedicationCourseEntity>
+    private medicationCoursesRepository: Repository<MedicationCourseEntity>,
+    @Inject(forwardRef(() => MedicationCoursesTakingsService))
+    private medicationCoursesTakingsService: MedicationCoursesTakingsService
   ) {}
 
   getAll({ authorizedUser }: { authorizedUser: UserEntity }): Promise<MedicationCourseEntity[]> {
@@ -44,7 +49,7 @@ export class MedicationCoursesService {
     return medicationCourse
   }
 
-  create({
+  async create({
     authorizedUser,
     input,
   }: {
@@ -55,7 +60,27 @@ export class MedicationCoursesService {
       name: input.name,
       user: authorizedUser,
     })
-    return this.medicationCoursesRepository.save(medicationCourse)
+
+    const savedMedicationCourse = await this.medicationCoursesRepository.save(medicationCourse)
+
+    const dates = getPeriodOfDates(input.startDate, input.endDate)
+
+    for (const date of dates) {
+      for (const time of input.times) {
+        const input = {
+          date,
+          isTaken: false,
+          medicationCourseId: savedMedicationCourse.id,
+          time,
+        }
+        await this.medicationCoursesTakingsService.create({
+          authorizedUser,
+          input,
+        })
+      }
+    }
+
+    return await this.medicationCoursesRepository.save(medicationCourse)
   }
 
   async update({

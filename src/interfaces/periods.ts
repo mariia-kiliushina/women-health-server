@@ -6,8 +6,8 @@ import { IUser } from "./user"
 export interface IPeriodRecord {
   date: string
   id: number
-  intensity: IPeriodIntensity
-  mood: IMood
+  intensity: IPeriodIntensity | null
+  mood: IMood | null
   symptoms: ISymptom[]
   user: IUser
 }
