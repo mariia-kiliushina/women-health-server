@@ -15,7 +15,5 @@ jobs:
         run: echo "${{ secrets.DEV_ENV_FILE }}" > ./dev.env
       - name: Install dependencies
         run: npm install
-      - name: Run DB and backend
-        run: npm run dev:db-and-api && sleep 2m && npm run init-db
-      - name: Init DB
-        run: sleep 2m && npm run init-db
+      - name: Create build
+        run: npm run build
