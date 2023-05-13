@@ -28,7 +28,7 @@ export class PeriodRecordsService {
     recordId,
     date,
   }: {
-    authorizedUser: UserEntity
+    authorizedUser?: UserEntity
     date?: PeriodRecordEntity["date"]
     recordId?: PeriodRecordEntity["id"]
   }): Promise<PeriodRecordEntity> {
@@ -40,7 +40,7 @@ export class PeriodRecordsService {
       where: {
         ...(recordId !== undefined && { id: recordId }),
         ...(date !== undefined && { date }),
-        user: { id: authorizedUser.id },
+        ...(authorizedUser !== undefined && { user: { id: authorizedUser.id } }),
       },
     })
     if (record === null) {
@@ -114,7 +114,7 @@ export class PeriodRecordsService {
     authorizedUser: UserEntity
     input: UpdatePeriodRecordInput
   }): Promise<PeriodRecordEntity> {
-    const record = await this.find({ authorizedUser, recordId: input.id })
+    const record = await this.find({ recordId: input.id })
     if (record.user.id !== authorizedUser.id) {
       throw new ForbiddenException({ message: "Access denied." })
     }
@@ -150,7 +150,7 @@ export class PeriodRecordsService {
     authorizedUser: UserEntity
     recordId: PeriodRecordEntity["id"]
   }): Promise<PeriodRecordEntity> {
-    const periodRecord = await this.find({ authorizedUser, recordId })
+    const periodRecord = await this.find({ recordId })
     if (periodRecord.user.id !== authorizedUser.id) {
       throw new ForbiddenException({ message: "Access denied." })
     }
