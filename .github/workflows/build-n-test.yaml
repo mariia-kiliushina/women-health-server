@@ -16,6 +16,6 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run DB and backend
-        run: npm run dev:db-and-api
+        run: npm run dev:db-and-api && sleep 2m && npm run init-db
       - name: Init DB
-        run: npm run init-db
+        run: sleep 2m && npm run init-db
