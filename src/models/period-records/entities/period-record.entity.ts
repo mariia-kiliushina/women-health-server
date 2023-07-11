@@ -15,11 +15,11 @@ export class PeriodRecordEntity {
   @PrimaryGeneratedColumn({ type: "int" })
   id: IPeriodRecord["id"]
 
-  @ManyToOne(() => PeriodIntensityEntity, { onDelete: "CASCADE" })
-  intensity: PeriodIntensityEntity
+  @ManyToOne(() => PeriodIntensityEntity, { onDelete: "CASCADE", nullable: true })
+  intensity: PeriodIntensityEntity | null
 
-  @ManyToOne(() => MoodEntity, { onDelete: "CASCADE" })
-  mood: MoodEntity
+  @ManyToOne(() => MoodEntity, { onDelete: "CASCADE", nullable: true })
+  mood: MoodEntity | null
 
   @ManyToMany(() => SymptomEntity, (symptom) => symptom.periodRecords, { onDelete: "CASCADE" })
   @JoinTable()

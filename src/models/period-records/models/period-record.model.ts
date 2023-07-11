@@ -15,11 +15,11 @@ export class PeriodRecord {
   @Field((type) => Int)
   id: IPeriodRecord["id"]
 
-  @Field((type) => PeriodIntensity)
-  intensity: PeriodIntensity
+  @Field((type) => PeriodIntensity, { nullable: true })
+  intensity: PeriodIntensity | null
 
-  @Field((type) => Mood)
-  mood: Mood
+  @Field((type) => Mood, { nullable: true })
+  mood: Mood | null
 
   @Field(() => [Symptom])
   symptoms: Symptom[]

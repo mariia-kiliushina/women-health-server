@@ -2,17 +2,15 @@ import { Field, InputType, Int } from "@nestjs/graphql"
 import { Matches } from "class-validator"
 
 @InputType()
-export class CreatePeriodRecordInput {
+export class CreateMedicationCourseTakingInput {
   @Field()
   @Matches(/^\d\d\d\d-\d\d-\d\d$/, { message: "Should have format YYYY-MM-DD." })
   date: string
 
-  @Field({ nullable: true })
-  intensitySlug?: string
+  @Field(() => Int)
+  medicationCourseId: number
 
-  @Field({ nullable: true })
-  moodSlug?: string
-
-  @Field((type) => [Int], { nullable: true })
-  symptomsIds?: number[]
+  @Field()
+  @Matches(/^\d\d:\d\d$/, { message: "Should have format HH:mm." })
+  time: string
 }
